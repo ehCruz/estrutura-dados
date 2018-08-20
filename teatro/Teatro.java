@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.lang.NumberFormatException;
+import java.util.IllegalFormatConversionException;
 
 public class Teatro {
 
@@ -19,56 +21,74 @@ public class Teatro {
 
 	private void processar() {
 		System.out.print("\033\143");
-		int op;
+		String op;
 		while (true) {
 			System.out.print(
 					"Controle de ocupacao de teatro\n1- Reservar assento\n2- Listar assentos\n9- Sair\nSelecione uma opcao:");
-			op = sc.nextInt();
-			switch (op) {
-			case 1:
-				reservarAssento();
-				break;
-			case 2:
-				listarAssentos();
-				break;
-			case 3:
-				simularEstadoDeOcupacao(1);
-				break;
-			case 4:
-				simularEstadoDeOcupacao(0);
-				break;
-			case 9:
-				System.out.print("\033\143");
-				System.exit(0);
-			default:
-				System.out.printf("A opcao %d e invalida, tente novamente!%n", op);
-				break;
+			try {
+				op = sc.next();
+				Integer opcao = Integer.parseInt(op);
+				switch (opcao) {
+				case 1:
+					reservarAssento();
+					break;
+				case 2:
+					listarAssentos();
+					break;
+				case 3:
+					simularEstadoDeOcupacao(1);
+					break;
+				case 4:
+					simularEstadoDeOcupacao(0);
+					break;
+				case 9:
+					System.out.print("\033\143");
+					System.exit(0);
+				default:
+					System.out.printf("A opcao %d e invalida, tente novamente%n", op);
+					break;
+				}
+			} catch (NumberFormatException | IllegalFormatConversionException e) {
+				e.printStackTrace();
+				System.out.println("Valor da entrada informado e invalido, use apenas numeros");
 			}
 		}
 	}
 
 	private void reservarAssento() {
-		int opcao = 0;
+		Integer opcao = 0;
+		String opcaoAuxiliar;
 		do {
-			System.out.printf("%sTipo do assento:%n1- Plateia %n2- Balcao%nSelecione uma opcao:", "\033\143");
-			opcao = sc.nextInt();
+			try {
+				System.out.printf("%sTipo do assento:%n1- Plateia %n2- Balcao%nSelecione uma opcao:", "\033\143");
+				opcaoAuxiliar = sc.next();
+				opcao = Integer.parseInt(opcaoAuxiliar);
+			} catch (NumberFormatException | IllegalFormatConversionException e) {
+				e.printStackTrace();
+				System.out.println("Valor da entrada informado e invalido, use apenas numeros");
+			}
 		} while (opcao <= 0 && opcao > 2);
 		switch (opcao) {
 		case 1:
 			if (!verificarOcupacao(0)) {
 				System.out.printf("%s--Reservar assento na plateia:%n", "\033\143");
-				int fila;
-				int cadeira;
+				Integer fila = 0;
+				Integer cadeira = 0;
+				boolean naoValido = true;
 				do {
-					System.out.printf("Informe a fila(0 - %d):", assentos.length - 1);
-					fila = sc.nextInt();
-				} while (!(fila >= 0 && fila < assentos.length));
-
-				do {
-					System.out.printf("Informe a cadeira(0 - %d):", assentos[fila].length - 1);
-					cadeira = sc.nextInt();
-				} while (!(cadeira >= 0 && cadeira < assentos[fila].length));
-
+					try {
+						System.out.printf("Informe a fila(0 - %d):", assentos.length - 1);
+						opcaoAuxiliar = sc.next();
+						fila = Integer.parseInt(opcaoAuxiliar);
+						System.out.printf("Informe a cadeira(0 - %d):", assentos[fila].length - 1);
+						opcaoAuxiliar = sc.next();
+						cadeira = Integer.parseInt(opcaoAuxiliar);
+						naoValido = false;
+					} catch (NumberFormatException | IllegalFormatConversionException e) {
+						e.printStackTrace();
+						System.out.println("Valor da entrada informado e invalido, use apenas numeros");
+					}
+				} while (naoValido);
 				if (assentos[fila][cadeira] == 0) {
 					assentos[fila][cadeira] = 1;
 					System.out.print("\033\143");
@@ -86,24 +106,27 @@ public class Teatro {
 		case 2:
 			if (!(verificarOcupacao(1))) {
 				System.out.printf("%s--Reservar assento no balcao:%n", "\033\143");
-				int posicaoBalcao;
-				int fila;
-				int cadeira;
+				Integer posicaoBalcao = 0;
+				Integer fila = 0;
+				Integer cadeira = 0;
+				boolean naoValido = true;
 				do {
-					System.out.printf("Informe a posicao do balcao(0 - %d):", balcoes.length - 1);
-					posicaoBalcao = sc.nextInt();
-				} while (!(posicaoBalcao >= 0 && posicaoBalcao < balcoes.length));
-
-				do {
-					System.out.printf("Informe a fila(0 - %d):", balcoes[posicaoBalcao].length - 1);
-					fila = sc.nextInt();
-				} while (!(fila >= 0 && fila < balcoes[posicaoBalcao].length));
-
-				do {
-					System.out.printf("Informe a cadeira(0 - %d):", balcoes[posicaoBalcao][fila].length - 1);
-					cadeira = sc.nextInt();
-				} while (!(cadeira >= 0 && cadeira < balcoes[posicaoBalcao][fila].length));
-
+					try {
+						System.out.printf("Informe a posicao do balcao(0 - %d):", balcoes.length - 1);
+						opcaoAuxiliar = sc.next();
+						posicaoBalcao = Integer.parseInt(opcaoAuxiliar);
+						System.out.printf("Informe a fila(0 - %d):", balcoes[posicaoBalcao].length - 1);
+						opcaoAuxiliar = sc.next();
+						fila = Integer.parseInt(opcaoAuxiliar);
+						System.out.printf("Informe a cadeira(0 - %d):", balcoes[posicaoBalcao][fila].length - 1);
+						opcaoAuxiliar = sc.next();
+						cadeira = Integer.parseInt(opcaoAuxiliar);
+						naoValido = false;
+					} catch (NumberFormatException | IllegalFormatConversionException e) {
+						e.printStackTrace();
+						System.out.println("Valor da entrada informado e invalido, use apenas numeros");
+					}
+				} while (naoValido);
 				if (balcoes[posicaoBalcao][fila][cadeira] == 0) {
 					balcoes[posicaoBalcao][fila][cadeira] = 1;
 					System.out.print("\033\143");
@@ -121,12 +144,19 @@ public class Teatro {
 	}
 
 	private void listarAssentos() {
-		int opcao = 0;
+		Integer opcao = -1;
+		String opcaoAuxiliar;
 		do {
-			System.out.printf(
-					"%sListar Assentos%nTipo de assento que deseja listar%n1- Plateia%n2- Balcao%n3- Plateia e Balcao%nSelecione uma opcao:",
-					"\033\143");
-			opcao = sc.nextInt();
+			try {
+				System.out.printf(
+						"%sListar Assentos%nTipo de assento que deseja listar%n1- Plateia%n2- Balcao%n3- Plateia e Balcao%nSelecione uma opcao:",
+						"\033\143");
+				opcaoAuxiliar = sc.next();
+				opcao = Integer.parseInt(opcaoAuxiliar);
+			} catch (NumberFormatException | IllegalFormatConversionException e) {
+				e.printStackTrace();
+				System.out.println("Valor da entrada informado e invalido, use apenas numeros");
+			}
 		} while (opcao <= 0 && opcao > 3);
 		switch (opcao) {
 		case 1:
