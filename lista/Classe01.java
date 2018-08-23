@@ -10,35 +10,39 @@ public class Classe01 {
     }
 
     public void adicionarElemento(int elemento) {
-        if (this.tamanhoReal == TAMANHO_LISTA - 1) {
+        if (this.tamanhoReal == TAMANHO_LISTA) {
             System.out.println("Lista cheia");
         } else {
             this.elementos[this.tamanhoReal] = elemento;
+            tamanhoReal++;
+            ordenarLista();
+        }
+    }
+
+    private void ordenarLista() {
+        if (this.tamanhoReal > 0) {
             int temp;
-            for (int i = 0; i < this.tamanhoReal; i++) {
-                if (this.elementos[i] > this.elementos[i + 1]) {
-                    temp = this.elementos[i + 1];
-                    this.elementos[i + 1] = this.elementos[i];
-                    this.elementos[i] = temp;
+            for (int i = 1; i < this.tamanhoReal; i++) {
+                for (int j = i; j > 0; j--) {
+                    if (this.elementos[j] < this.elementos[j - 1]) {
+                        temp = this.elementos[j];
+                        this.elementos[j] = this.elementos[j - 1];
+                        this.elementos[j - 1] = temp;
+                    }
                 }
             }
-            tamanhoReal++;
         }
     }
 
     public void removeElemento(int posicao) {
         if (this.tamanhoReal <= 0) {
             System.out.println("Lista vazia");
-        } else if (posicao >= this.tamanhoReal) {
+        } else if (posicao > this.tamanhoReal || posicao < 0) {
             throw new IllegalArgumentException("Posicao informada e invalida");
         } else {
-            int temp;
-            for (int i = posicao; i < this.tamanhoReal; i++) {
-                temp = this.elementos[i + 1];
-                this.elementos[i + 1] = this.elementos[i];
-                this.elementos[i] = temp;
-            }
+            this.elementos[posicao] = this.tamanhoReal + 1;
             tamanhoReal--;
+            ordenarLista();
         }
     }
 
