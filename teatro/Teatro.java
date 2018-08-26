@@ -2,6 +2,11 @@ import java.util.Scanner;
 import java.lang.NumberFormatException;
 import java.util.IllegalFormatConversionException;
 
+/**
+ * @author Eduardo Henrique Cruz
+ * 
+ *         Disciplina de Estrutura de Dados - Atividade sobre vetores e matrizes
+ */
 public class Teatro {
 
 	private static int[][] assentos;
@@ -24,7 +29,7 @@ public class Teatro {
 		String op;
 		while (true) {
 			System.out.print(
-					"Controle de ocupacao de teatro\n1- Reservar assento\n2- Listar assentos\n9- Sair\nSelecione uma opcao:");
+					"---------Atividade sobre vetores e matrizes--------\n1- Reservar assento\n2- Listar assentos\n9- Sair\nSelecione uma opcao:");
 			try {
 				op = sc.next();
 				Integer opcao = Integer.parseInt(op);
@@ -43,6 +48,8 @@ public class Teatro {
 					break;
 				case 9:
 					System.out.print("\033\143");
+					System.out.println(
+							"----------------------------------------------------------\nAluno: Eduardo Cruz | Matricula: 258635\n----------------------------------------------------------");
 					System.exit(0);
 				default:
 					System.out.printf("A opcao %d e invalida, tente novamente%n", op);
@@ -60,7 +67,9 @@ public class Teatro {
 		String opcaoAuxiliar;
 		do {
 			try {
-				System.out.printf("%sTipo do assento:%n1- Plateia %n2- Balcao%nSelecione uma opcao:", "\033\143");
+				System.out.printf(
+						"%s--------------Tipo do assento--------------%n%n1- Plateia %n2- Balcao%nSelecione uma opcao:",
+						"\033\143");
 				opcaoAuxiliar = sc.next();
 				opcao = Integer.parseInt(opcaoAuxiliar);
 			} catch (NumberFormatException | IllegalFormatConversionException e) {
@@ -149,7 +158,7 @@ public class Teatro {
 		do {
 			try {
 				System.out.printf(
-						"%sListar Assentos%nTipo de assento que deseja listar%n1- Plateia%n2- Balcao%n3- Plateia e Balcao%nSelecione uma opcao:",
+						"%s--------------Listar Assentos--------------%n%nTipo de assento que deseja listar%n1- Plateia%n2- Balcao%n3- Plateia e Balcao%nSelecione uma opcao:",
 						"\033\143");
 				opcaoAuxiliar = sc.next();
 				opcao = Integer.parseInt(opcaoAuxiliar);
