@@ -9,24 +9,15 @@ public class Classe02 {
     public void adicionarElemento(int elemento) {
         ListaEncadeada lista = new ListaEncadeada();
         lista.setElemento(elemento);
-        this.primeiroNodo = lista;
         if (this.tamanhoDaLista == 0) {
+            lista.setProximo(null);
+            this.primeiroNodo = lista;
             this.ultimoNodo = this.primeiroNodo;
         } else {
-            lista.setProximo(primeiroNodo);
-            this.primeiroNodo = lista;
+            this.ultimoNodo.setProximo(lista);
+            this.ultimoNodo = lista;
         }
         this.tamanhoDaLista++;
-    }
-
-    public void adicionarElementoNoFinal(int elemento) {
-        if (this.tamanhoDaLista > 0) {
-            ListaEncadeada lista = new ListaEncadeada();
-            lista.setElemento(elemento);
-            lista.setProximo(ultimoNodo);
-            this.ultimoNodo = lista;
-            this.tamanhoDaLista++;
-        }
     }
 
     public String exibirUltimoNodo() {
