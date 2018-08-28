@@ -2,31 +2,49 @@ import java.lang.StringBuilder;
 
 public class Classe02 {
 
-    private ListaEncadeada primeiroNodo;
-    private ListaEncadeada ultimoNodo;
+    private ListaEncadeada primeiroNo;
+    private ListaEncadeada ultimoNo;
     private int tamanhoDaLista;
 
     public void adicionarElemento(int elemento) {
-        ListaEncadeada lista = this.new ListaEncadeada();
-        lista.setElemento(elemento);
-        if (this.tamanhoDaLista == 0) {
-            lista.setProximo(null);
-            this.primeiroNodo = lista;
-            this.ultimoNodo = this.primeiroNodo;
-        } else {
-            this.ultimoNodo.setProximo(lista);
-            this.ultimoNodo = lista;
+        if (this.tamanhoDaLista <= 9) {
+            ListaEncadeada lista = this.new ListaEncadeada();
+            lista.setElemento(elemento);
+            if (this.tamanhoDaLista == 0) {
+                lista.setProximo(null);
+                this.primeiroNo = lista;
+                this.ultimoNo = this.primeiroNo;
+            } else {
+                this.ultimoNo.setProximo(lista);
+                this.ultimoNo = lista;
+            }
+            this.tamanhoDaLista++;
         }
-        this.tamanhoDaLista++;
     }
 
-    public String exibirUltimoNodo() {
+    public int excluirUltimoNo() {
+        if (this.tamanhoDaLista == 0) {
+            return 0;
+        } else {
+            ListaEncadeada lista = new ListaEncadeada();
+            lista.setProximo(primeiroNo);
+            for (int i = 0; i < tamanhoDaLista - 1; i++) {
+                lista = lista.getProximo();
+            }
+            this.ultimoNo.setProximo(null);
+            this.ultimoNo = lista;
+            this.tamanhoDaLista--;
+            return 1;
+        }
+    }
+
+    public String exibirUltimoNo() {
         if (this.tamanhoDaLista == 0) {
             return "Lista vazia";
         } else {
             StringBuilder sb = new StringBuilder();
             ListaEncadeada lista = new ListaEncadeada();
-            lista.setProximo(ultimoNodo);
+            lista.setProximo(ultimoNo);
             lista = lista.getProximo();
             sb.append("Ultimo item adicionado: ").append(lista.getElemento());
             return sb.toString();
@@ -40,7 +58,7 @@ public class Classe02 {
         } else {
             ListaEncadeada lista = new ListaEncadeada();
             StringBuilder sb = new StringBuilder();
-            lista.setProximo(primeiroNodo);
+            lista.setProximo(primeiroNo);
             for (int i = 0; i < tamanhoDaLista; i++) {
                 lista = lista.getProximo();
                 sb.append(lista.getElemento());
