@@ -61,7 +61,19 @@ public class Classe03 {
             lista.setProximo(primeiroNo);
             for (int i = 0; i < tamanhoDaLista; i++) {
                 lista = lista.getProximo();
+                if(lista.anterior != null){
+                  sb.append(lista.anterior.getElemento());
+                } else {
+                  sb.append(" ");  
+                }
+                sb.append(" - ");
                 sb.append(lista.getElemento());
+                sb.append(" - ");
+                if(lista.proximo != null){
+                  sb.append(lista.proximo.getElemento());
+                } else {
+                  sb.append(" ");
+                }
                 sb.append("\n");
             }
             return sb.toString();
