@@ -2,3 +2,5 @@
 *.sh
 Teste.*
 *.vscode
+*.idea
+*.iml

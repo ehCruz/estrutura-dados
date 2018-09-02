@@ -1,32 +1,34 @@
+package duplamente;
+
 import java.lang.StringBuilder;
 
-public class Classe02 {
+public class Duplamente {
 
-    private ListaEncadeada primeiroNo;
-    private ListaEncadeada ultimoNo;
+    private ListaDuplamenteEncadeada primeiroNo;
+    private ListaDuplamenteEncadeada ultimoNo;
     private int tamanhoDaLista;
 
     public void adicionarElemento(int elemento) {
-        if (this.tamanhoDaLista <= 14) {
-            ListaEncadeada lista = this.new ListaEncadeada();
-            lista.setElemento(elemento);
-            if (this.tamanhoDaLista == 0) {
-                lista.setProximo(null);
-                this.primeiroNo = lista;
-                this.ultimoNo = this.primeiroNo;
-            } else {
-                this.ultimoNo.setProximo(lista);
-                this.ultimoNo = lista;
-            }
-            this.tamanhoDaLista++;
+        ListaDuplamenteEncadeada lista = this.new ListaDuplamenteEncadeada();
+        lista.setElemento(elemento);
+        if (this.tamanhoDaLista == 0) {
+            lista.setAnterior(null);
+            lista.setProximo(null);
+            this.primeiroNo = lista;
+            this.ultimoNo = this.primeiroNo;
+        } else {
+            lista.setAnterior(this.ultimoNo);
+            this.ultimoNo.setProximo(lista);
+            this.ultimoNo = lista;
         }
+        this.tamanhoDaLista++;
     }
 
     public int excluirUltimoNo() {
         if (this.tamanhoDaLista == 0) {
             return 0;
         } else {
-            ListaEncadeada lista = new ListaEncadeada();
+            ListaDuplamenteEncadeada lista = this.new ListaDuplamenteEncadeada();
             lista.setProximo(primeiroNo);
             for (int i = 0; i < tamanhoDaLista - 1; i++) {
                 lista = lista.getProximo();
@@ -43,7 +45,7 @@ public class Classe02 {
             return "Lista vazia";
         } else {
             StringBuilder sb = new StringBuilder();
-            ListaEncadeada lista = new ListaEncadeada();
+            ListaDuplamenteEncadeada lista = this.new ListaDuplamenteEncadeada();
             lista.setProximo(ultimoNo);
             lista = lista.getProximo();
             sb.append("Ultimo item adicionado: ").append(lista.getElemento());
@@ -56,21 +58,34 @@ public class Classe02 {
         if (this.tamanhoDaLista == 0) {
             return "[]";
         } else {
-            ListaEncadeada lista = new ListaEncadeada();
+            ListaDuplamenteEncadeada lista = this.new ListaDuplamenteEncadeada();
             StringBuilder sb = new StringBuilder();
             lista.setProximo(primeiroNo);
             for (int i = 0; i < tamanhoDaLista; i++) {
                 lista = lista.getProximo();
+                if(lista.anterior != null){
+                  sb.append(lista.anterior.getElemento());
+                } else {
+                  sb.append(" ");  
+                }
+                sb.append(" - ");
                 sb.append(lista.getElemento());
+                sb.append(" - ");
+                if(lista.proximo != null){
+                  sb.append(lista.proximo.getElemento());
+                } else {
+                  sb.append(" ");
+                }
                 sb.append("\n");
             }
             return sb.toString();
         }
     }
 
-    private class ListaEncadeada {
+    private class ListaDuplamenteEncadeada {
         private int elemento;
-        private ListaEncadeada proximo;
+        private ListaDuplamenteEncadeada proximo;
+        private ListaDuplamenteEncadeada anterior;
 
         /**
          * @return the elemento
@@ -89,15 +104,29 @@ public class Classe02 {
         /**
          * @return the proximo
          */
-        public ListaEncadeada getProximo() {
+        public ListaDuplamenteEncadeada getProximo() {
             return proximo;
         }
 
         /**
          * @param proximo the proximo to set
          */
-        public void setProximo(ListaEncadeada proximo) {
+        public void setProximo(ListaDuplamenteEncadeada proximo) {
             this.proximo = proximo;
+        }
+
+        /**
+         * @param anterior the anterior to set
+         */
+        public void setAnterior(ListaDuplamenteEncadeada anterior) {
+            this.anterior = anterior;
+        }
+
+        /**
+         * @return the anterior
+         */
+        public ListaDuplamenteEncadeada getAnterior() {
+            return anterior;
         }
     }
 }

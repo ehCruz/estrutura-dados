@@ -1,4 +1,6 @@
-public class Classe04 {
+package circular;
+
+public class Circular {
 
     private ListaCircular primeiroNo;
     private ListaCircular ultimoNo;
@@ -16,6 +18,8 @@ public class Classe04 {
             listaCircular.setObjAnterior(this.ultimoNo);
             this.ultimoNo.setObjProximo(listaCircular);
             this.ultimoNo = listaCircular;
+            this.primeiroNo.setObjAnterior(listaCircular);
+            this.ultimoNo.setObjProximo(this.primeiroNo);
         }
         this.tamanhoLista++;
     }

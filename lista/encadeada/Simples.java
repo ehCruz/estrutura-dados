@@ -1,32 +1,52 @@
+package encadeada;
+
 import java.lang.StringBuilder;
 
-public class Classe03 {
+public class Simples {
 
-    private ListaDuplamenteEncadeada primeiroNo;
-    private ListaDuplamenteEncadeada ultimoNo;
+    private ListaEncadeada primeiroNo;
+    private ListaEncadeada ultimoNo;
     private int tamanhoDaLista;
 
     public void adicionarElemento(int elemento) {
-        ListaDuplamenteEncadeada lista = this.new ListaDuplamenteEncadeada();
-        lista.setElemento(elemento);
-        if (this.tamanhoDaLista == 0) {
-            lista.setAnterior(null);
-            lista.setProximo(null);
-            this.primeiroNo = lista;
-            this.ultimoNo = this.primeiroNo;
-        } else {
-            lista.setAnterior(this.ultimoNo);
-            this.ultimoNo.setProximo(lista);
-            this.ultimoNo = lista;
+        if (this.tamanhoDaLista <= 14) {
+            ListaEncadeada lista = this.new ListaEncadeada();
+            lista.setElemento(elemento);
+            if (this.tamanhoDaLista == 0) {
+                lista.setProximo(null);
+                this.primeiroNo = lista;
+                this.ultimoNo = this.primeiroNo;
+            } else {
+                if (this.primeiroNo.getElemento() > elemento) {
+                    lista.setProximo(this.primeiroNo);
+                    this.primeiroNo = lista;
+                } else if (this.ultimoNo.getElemento() > elemento) {
+                    lista.setProximo(primeiroNo);
+                    for (int i = 0; i < this.tamanhoDaLista; i++) {
+                        if (lista.getProximo().getElemento() < elemento) {
+                            lista = lista.getProximo();
+                        } else {
+                            ListaEncadeada objTemp = this.new ListaEncadeada();
+                            objTemp.setElemento(elemento);
+                            objTemp.setProximo(lista.getProximo());
+                            lista.setProximo(objTemp);
+                            break;
+                        }
+                    }
+                } else {
+                    this.ultimoNo.setProximo(lista);
+                    this.ultimoNo = lista;
+                }
+            }
+            this.tamanhoDaLista++;
         }
-        this.tamanhoDaLista++;
     }
 
     public int excluirUltimoNo() {
         if (this.tamanhoDaLista == 0) {
             return 0;
         } else {
-            ListaDuplamenteEncadeada lista = this.new ListaDuplamenteEncadeada();
+            ListaEncadeada lista = new ListaEncadeada();
             lista.setProximo(primeiroNo);
             for (int i = 0; i < tamanhoDaLista - 1; i++) {
                 lista = lista.getProximo();
@@ -43,7 +63,7 @@ public class Classe03 {
             return "Lista vazia";
         } else {
             StringBuilder sb = new StringBuilder();
-            ListaDuplamenteEncadeada lista = this.new ListaDuplamenteEncadeada();
+            ListaEncadeada lista = new ListaEncadeada();
             lista.setProximo(ultimoNo);
             lista = lista.getProximo();
             sb.append("Ultimo item adicionado: ").append(lista.getElemento());
@@ -56,34 +76,21 @@ public class Classe03 {
         if (this.tamanhoDaLista == 0) {
             return "[]";
         } else {
-            ListaDuplamenteEncadeada lista = this.new ListaDuplamenteEncadeada();
             StringBuilder sb = new StringBuilder();
+            ListaEncadeada lista = new ListaEncadeada();
             lista.setProximo(primeiroNo);
             for (int i = 0; i < tamanhoDaLista; i++) {
                 lista = lista.getProximo();
-                if(lista.anterior != null){
-                  sb.append(lista.anterior.getElemento());
-                } else {
-                  sb.append(" ");  
-                }
-                sb.append(" - ");
                 sb.append(lista.getElemento());
-                sb.append(" - ");
-                if(lista.proximo != null){
-                  sb.append(lista.proximo.getElemento());
-                } else {
-                  sb.append(" ");
-                }
                 sb.append("\n");
             }
             return sb.toString();
         }
     }
 
-    private class ListaDuplamenteEncadeada {
+    private class ListaEncadeada {
         private int elemento;
-        private ListaDuplamenteEncadeada proximo;
-        private ListaDuplamenteEncadeada anterior;
+        private ListaEncadeada proximo;
 
         /**
          * @return the elemento
@@ -102,29 +109,15 @@ public class Classe03 {
         /**
          * @return the proximo
          */
-        public ListaDuplamenteEncadeada getProximo() {
+        public ListaEncadeada getProximo() {
             return proximo;
         }
 
         /**
          * @param proximo the proximo to set
          */
-        public void setProximo(ListaDuplamenteEncadeada proximo) {
+        public void setProximo(ListaEncadeada proximo) {
             this.proximo = proximo;
-        }
-
-        /**
-         * @param anterior the anterior to set
-         */
-        public void setAnterior(ListaDuplamenteEncadeada anterior) {
-            this.anterior = anterior;
-        }
-
-        /**
-         * @return the anterior
-         */
-        public ListaDuplamenteEncadeada getAnterior() {
-            return anterior;
         }
     }
 }
