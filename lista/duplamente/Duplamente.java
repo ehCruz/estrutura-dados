@@ -8,8 +8,8 @@ public class Duplamente {
     private ListaDuplamenteEncadeada ultimoNo;
     private int tamanhoDaLista;
 
-    public void adicionarElemento(int elemento) {
-        ListaDuplamenteEncadeada lista = this.new ListaDuplamenteEncadeada();
+    public void adicionarElementoNoFim(int elemento) {
+        ListaDuplamenteEncadeada lista = new ListaDuplamenteEncadeada();
         lista.setElemento(elemento);
         if (this.tamanhoDaLista == 0) {
             lista.setAnterior(null);
@@ -24,33 +24,43 @@ public class Duplamente {
         this.tamanhoDaLista++;
     }
 
-    public int excluirUltimoNo() {
-        if (this.tamanhoDaLista == 0) {
-            return 0;
-        } else {
-            ListaDuplamenteEncadeada lista = this.new ListaDuplamenteEncadeada();
-            lista.setProximo(primeiroNo);
-            for (int i = 0; i < tamanhoDaLista - 1; i++) {
-                lista = lista.getProximo();
-            }
-            this.ultimoNo.setProximo(null);
-            this.ultimoNo = lista;
-            this.tamanhoDaLista--;
-            return 1;
-        }
+    public void adicionarElementoNoInicio(int elemento) {
+        ListaDuplamenteEncadeada lista = new ListaDuplamenteEncadeada();
+        lista.setElemento(elemento);
+        lista.setProximo(this.primeiroNo);
+        this.primeiroNo.setAnterior(lista);
+        this.primeiroNo = lista;
+        this.tamanhoDaLista++;
     }
 
-    public String exibirUltimoNo() {
-        if (this.tamanhoDaLista == 0) {
-            return "Lista vazia";
-        } else {
-            StringBuilder sb = new StringBuilder();
-            ListaDuplamenteEncadeada lista = this.new ListaDuplamenteEncadeada();
-            lista.setProximo(ultimoNo);
-            lista = lista.getProximo();
-            sb.append("Ultimo item adicionado: ").append(lista.getElemento());
-            return sb.toString();
+    public int pesquisarElemento(int elemento) {
+        if (this.tamanhoDaLista > 0) {
+            ListaDuplamenteEncadeada lista = new ListaDuplamenteEncadeada();
+            lista.setProximo(this.primeiroNo);
+            for (int i = 0; i < this.tamanhoDaLista; i++) {
+                if (lista.getElemento() == elemento) {
+                    return i;
+                }
+                lista = lista.getProximo();
+            }
         }
+        return -1;
+    }
+
+    public int excluirElemento(int elemento) {
+        if (this.pesquisarElemento(elemento) >= 0) {
+            ListaDuplamenteEncadeada lista = new ListaDuplamenteEncadeada();
+            lista.setProximo(primeiroNo);
+            for (int i = 0; i < tamanhoDaLista - 1; i++) {
+                if (lista.getElemento() == elemento) {
+                    lista.getProximo().setAnterior(lista.getAnterior());
+                    this.tamanhoDaLista--;
+                    return 1;
+                }
+                lista = lista.getProximo();
+            }
+        }
+        return 0;
     }
 
     @Override
@@ -58,23 +68,23 @@ public class Duplamente {
         if (this.tamanhoDaLista == 0) {
             return "[]";
         } else {
-            ListaDuplamenteEncadeada lista = this.new ListaDuplamenteEncadeada();
+            ListaDuplamenteEncadeada lista = new ListaDuplamenteEncadeada();
             StringBuilder sb = new StringBuilder();
             lista.setProximo(primeiroNo);
             for (int i = 0; i < tamanhoDaLista; i++) {
                 lista = lista.getProximo();
-                if(lista.anterior != null){
-                  sb.append(lista.anterior.getElemento());
+                if (lista.anterior != null) {
+                    sb.append(lista.anterior.getElemento());
                 } else {
-                  sb.append(" ");  
+                    sb.append(" ");
                 }
                 sb.append(" - ");
                 sb.append(lista.getElemento());
                 sb.append(" - ");
-                if(lista.proximo != null){
-                  sb.append(lista.proximo.getElemento());
+                if (lista.proximo != null) {
+                    sb.append(lista.proximo.getElemento());
                 } else {
-                  sb.append(" ");
+                    sb.append(" ");
                 }
                 sb.append("\n");
             }

@@ -10,35 +10,39 @@ public class Simples {
 
     public void adicionarElemento(int elemento) {
         if (this.tamanhoDaLista <= 14) {
-            ListaEncadeada lista = this.new ListaEncadeada();
-            lista.setElemento(elemento);
-            if (this.tamanhoDaLista == 0) {
-                lista.setProximo(null);
-                this.primeiroNo = lista;
-                this.ultimoNo = this.primeiroNo;
-            } else {
-                if (this.primeiroNo.getElemento() > elemento) {
-                    lista.setProximo(this.primeiroNo);
+            if (verificarElementoRepetido(elemento)){
+                ListaEncadeada lista = new ListaEncadeada();
+                lista.setElemento(elemento);
+                if (this.tamanhoDaLista == 0) {
+                    lista.setProximo(null);
                     this.primeiroNo = lista;
-                } else if (this.ultimoNo.getElemento() > elemento) {
-                    lista.setProximo(primeiroNo);
-                    for (int i = 0; i < this.tamanhoDaLista; i++) {
-                        if (lista.getProximo().getElemento() < elemento) {
-                            lista = lista.getProximo();
-                        } else {
-                            ListaEncadeada objTemp = this.new ListaEncadeada();
-                            objTemp.setElemento(elemento);
-                            objTemp.setProximo(lista.getProximo());
-                            lista.setProximo(objTemp);
-                            break;
-                        }
-                    }
+                    this.ultimoNo = this.primeiroNo;
                 } else {
-                    this.ultimoNo.setProximo(lista);
-                    this.ultimoNo = lista;
+                    if (this.primeiroNo.getElemento() > elemento) {
+                        lista.setProximo(this.primeiroNo);
+                        this.primeiroNo = lista;
+                    } else if (this.ultimoNo.getElemento() > elemento) {
+                        lista.setProximo(primeiroNo);
+                        for (int i = 0; i < this.tamanhoDaLista; i++) {
+                            if (lista.getProximo().getElemento() < elemento) {
+                                lista = lista.getProximo();
+                            } else {
+                                ListaEncadeada objTemp = new ListaEncadeada();
+                                objTemp.setElemento(elemento);
+                                objTemp.setProximo(lista.getProximo());
+                                lista.setProximo(objTemp);
+                                break;
+                            }
+                        }
+                    } else {
+                        this.ultimoNo.setProximo(lista);
+                        this.ultimoNo = lista;
+                    }
                 }
+                this.tamanhoDaLista++;
+            } else {
+                System.out.println("Elemento já presente na lista");
             }
-            this.tamanhoDaLista++;
         }
     }
 
@@ -58,17 +62,15 @@ public class Simples {
         }
     }
 
-    public String exibirUltimoNo() {
-        if (this.tamanhoDaLista == 0) {
-            return "Lista vazia";
-        } else {
-            StringBuilder sb = new StringBuilder();
-            ListaEncadeada lista = new ListaEncadeada();
-            lista.setProximo(ultimoNo);
+    private boolean verificarElementoRepetido(int elemento){
+        ListaEncadeada lista = new ListaEncadeada();
+        lista.setProximo(primeiroNo);
+        for (int i = 0; i < tamanhoDaLista; i++) {
             lista = lista.getProximo();
-            sb.append("Ultimo item adicionado: ").append(lista.getElemento());
-            return sb.toString();
+            if(lista.getElemento() == elemento)
+                return false;
         }
+        return true;
     }
 
     @Override
