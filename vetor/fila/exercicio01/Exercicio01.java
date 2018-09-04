@@ -10,7 +10,7 @@ public class Exercicio01 {
     }
 
     public void adicionarElemento(int elemento) {
-        if (this.tamanhoReal < 10) {
+        if (this.tamanhoReal <= 10) {
             this.vetorFila[this.tamanhoReal] = elemento;
             this.tamanhoReal++;
         } else {
@@ -18,8 +18,32 @@ public class Exercicio01 {
         }
     }
 
-    public void consumirElemento(){
+    public void adicionarElemento(int... elementos) {
+        if (this.tamanhoReal <= 10) {
+            for (int elemento : elementos) {
+                if (this.tamanhoReal <= 10) {
+                    this.vetorFila[this.tamanhoReal] = elemento;
+                    this.tamanhoReal++;
+                } else {
+                    break;
+                }
+            }
+        } else {
+            System.out.println("Fila está cheia");
+        }
+    }
 
+    public int consumirElemento() {
+        if (this.tamanhoReal > 0) {
+            int elemento = this.vetorFila[0];
+            for (int i = 0; i < this.tamanhoReal; i++) {
+                this.vetorFila[i] = this.vetorFila[i + 1];
+            }
+            this.tamanhoReal--;
+            return elemento;
+        } else {
+            return -1;
+        }
     }
 
     @Override
